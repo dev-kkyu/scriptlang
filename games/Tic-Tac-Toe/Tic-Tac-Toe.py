@@ -3,7 +3,7 @@ from tkinter import *
 window = Tk()
 
 window.title("Tic-Tac-Toe")
-window.geometry("300x330+100+100")
+window.geometry("240x330+100+100")
 window.resizable(True, True)  
 
 count=0
