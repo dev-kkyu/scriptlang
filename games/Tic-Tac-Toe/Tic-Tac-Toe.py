@@ -5,7 +5,7 @@ window = Tk() #Gui 생성
 
 window.title("Tic-Tac-Toe") #창이름설정
 window.geometry("250x270+100+100") #창사이즈설정
-window.resizable(True, True) #사이즈 변경 허용
+window.resizable(False, False) #사이즈 변경 허용
 
 img_empty=PhotoImage(file="./image/empty.gif")
 img_x=PhotoImage(file="./image/x.gif")
@@ -20,8 +20,20 @@ img_o=img_o.zoom(2, 2)
 
 count=0
 
+ButtonIndex = [0,0,0,0,0,0,0,0,0]
+GameEnd = 0
+
 def changebutton(num):
     global count
+    global ButtonIndex
+    global GameEnd
+
+    if GameEnd != 0:
+        return
+
+    if ButtonIndex[num-1] != 0:
+        return
+
     count +=1
 
     if count%2==0:
@@ -30,6 +42,8 @@ def changebutton(num):
         output = playero
 
     label.config(text=output)
+
+
     
 
     if count%2==1:
@@ -51,6 +65,9 @@ def changebutton(num):
             button8.config(image=img_x)
         elif num==9:
             button9.config(image=img_x)
+        
+        ButtonIndex[num-1] = 1
+
     elif count%2==0:
         if num==1:
             button1.config(image=img_o)
@@ -70,6 +87,75 @@ def changebutton(num):
             button8.config(image=img_o)
         elif num==9:
             button9.config(image=img_o)
+        
+        ButtonIndex[num-1] = 2
+    
+
+    
+    if ButtonIndex[0]==ButtonIndex[1]==ButtonIndex[2]and ButtonIndex[0]!=0:
+        if ButtonIndex[0] == 1:
+            label.config(text = xwin)
+            GameEnd = 1
+        elif ButtonIndex[0] == 2:
+            label.config(text = owin)
+            GameEnd = 2
+    elif ButtonIndex[3]==ButtonIndex[4]==ButtonIndex[5]and ButtonIndex[3]!=0:
+        if ButtonIndex[3] == 1:
+            label.config(text = xwin)
+            GameEnd = 1
+        elif ButtonIndex[3] == 2:
+            label.config(text = owin)
+            GameEnd = 2
+    elif ButtonIndex[6]==ButtonIndex[7]==ButtonIndex[8]and ButtonIndex[6]!=0:
+        if ButtonIndex[6] == 1:
+            label.config(text = xwin)
+            GameEnd = 1
+        elif ButtonIndex[6] == 2:
+            label.config(text = owin)
+            GameEnd = 2
+    elif ButtonIndex[0]==ButtonIndex[3]==ButtonIndex[6]and ButtonIndex[0]!=0:
+        if ButtonIndex[0] == 1:
+            label.config(text = xwin)
+            GameEnd = 1
+        elif ButtonIndex[0] == 2:
+            label.config(text = owin)
+            GameEnd = 2
+    elif ButtonIndex[1]==ButtonIndex[4]==ButtonIndex[7]and ButtonIndex[1]!=0:
+        if ButtonIndex[1] == 1:
+            label.config(text = xwin)
+            GameEnd = 1
+        elif ButtonIndex[1] == 2:
+            label.config(text = owin)
+            GameEnd = 2
+    elif ButtonIndex[2]==ButtonIndex[5]==ButtonIndex[8]and ButtonIndex[2]!=0:
+        if ButtonIndex[2] == 1:
+            label.config(text = xwin)
+            GameEnd = 1
+        elif ButtonIndex[2] == 2:
+            label.config(text = owin)
+            GameEnd = 2
+    elif ButtonIndex[0]==ButtonIndex[4]==ButtonIndex[8]and ButtonIndex[0]!=0:
+        if ButtonIndex[0] == 1:
+            label.config(text = xwin)
+            GameEnd = 1
+        elif ButtonIndex[0] == 2:
+            label.config(text = owin)
+            GameEnd = 2
+    elif ButtonIndex[2]==ButtonIndex[4]==ButtonIndex[6]and ButtonIndex[2]!=0:
+        if ButtonIndex[2] == 1:
+            label.config(text = xwin)
+            GameEnd = 1
+        elif ButtonIndex[2] == 2:
+            label.config(text = owin)
+            GameEnd = 2
+
+    drawcheck = 0
+    for i in ButtonIndex:
+        if i != 0:
+            drawcheck += 1
+    if drawcheck == 9 and GameEnd ==0:
+        GameEnd = 3
+        label.config(text = draw)
 
 
 
@@ -114,12 +200,15 @@ draw = "비김! 게임이 끝났습니다"
 xwin = "X 승리! 게임이 끝났습니다"
 owin = "O 승리! 게임이 끝났습니다"
 
-output = ""
 
 
 
-label=Label(frame4, text=playerx, width=100, height=1, fg="red")
+label=Label(frame4, text=playerx, width=100, height=1)
 label.pack(fill="both", expand=True)
 
+
+
+
+        
 
 window.mainloop()
