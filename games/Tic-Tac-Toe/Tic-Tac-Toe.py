@@ -17,6 +17,7 @@ label=Label(window, text="파이썬", width=100, height=1, fg="red")
 #label.pack() 
 label.place(x=0, y=260, relwidth=1)
 
+
 button1 = Button(window,text="클릭", overrelief="solid", width=10, height=5, command=countUP, repeatdelay=1000, repeatinterval=100)
 #button1.pack() #grid와 같이 못씀
 #button1.place()
