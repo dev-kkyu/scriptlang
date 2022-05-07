@@ -31,6 +31,7 @@ def changebutton(num):
 
     label.config(text=output)
     
+
     if count%2==1:
         if num==1:
             button1.config(image=img_x)
