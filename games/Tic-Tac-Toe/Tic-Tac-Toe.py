@@ -92,5 +92,3 @@ label.pack(fill="both", expand=True)
 
 
 window.mainloop()
-
-print("test")
