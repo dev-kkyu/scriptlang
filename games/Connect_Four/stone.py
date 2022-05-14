@@ -14,14 +14,12 @@ restart_text = ("새로 시작", "red 승리!", "yellow 승리!")
 
 
 def restart(): #함수 : process_button의 command 함수
-    global cells
     if process_button.text == restart_text[0]:
         for i in range(_MAXROW): 
             for j in range(_MAXCOL):
                 cells[i][j].setColor("white")
-    elif process_button.text == restart_text[1] or process_button.text == restart_text[2]:
-        process_button.text = restart_text[0]
-        process_button.config(text = restart_text[0])
+    else:
+        process_button.setText(restart_text[0])
 
 
 class Cell(Canvas):
@@ -50,8 +48,14 @@ class Cell(Canvas):
 
 class pButton(Button):
     def __init__(self, container):
-        self.text = restart_text[0]
+        self.text = restart_text[1]
         Button.__init__(self, container, command=restart, text=self.text)
+    
+
+    def setText(self, text):
+        self.text = text
+        self.config(text = text)
+
 
 
 
