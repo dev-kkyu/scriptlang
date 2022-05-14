@@ -1,3 +1,4 @@
+from binascii import b2a_base64
 from tkinter import *
 
 window = Tk() # Create a window
@@ -45,6 +46,7 @@ class Cell(Canvas):
                 self.setColor(Turn)
                 self.__checkVertical(1)
                 self.__checkHorizontal()
+                self.__checkDiag1()
 
     def setColor(self, color):
         self.delete("oval")
@@ -79,8 +81,90 @@ class Cell(Canvas):
                 Turn = None
 
 
-    def __checkDiag1(self, count): # : ↘ 방향 대각선 확인.
-        pass
+    def __checkDiag1(self): # : ↘ 방향 대각선 확인.(+1,+1) 
+        global Turn
+        x, y = self.row, self.col
+        count = 1
+
+        while(count < 4):
+            if self.row  - count >= 0 and self.col  - count >= 0:
+                x = self.row - count
+                y = self.col - count
+                count += 1
+            else:
+                break
+        
+        for i in range(count):
+            if  x+i+3 < _MAXROW and y+i+3 < _MAXCOL:
+                if cells[x+i][y+i].color == cells[x+i+1][y+i+1].color == cells[x+i+2][y+i+2].color == cells[x+i+3][y+i+3].color == self.color != "white":
+                    for j in range(4):
+                        cells[x+i+j][y+i+j].setBgColor(self.color)
+                    process_button.setText(restart_text[self.color])
+                    Turn = None
+
+ #if cells[x+i][y-i].color == cells[x+i+1][y-i-1].color == cells[x+i+2][y-i-2].color == cells[x+i+3][y-i-3].color == self.color != "white":
+
+
+
+
+
+        # global Turn
+        # count = 1
+
+        # if self.row - self.col <=2 and self.row - self.col >= -3:   #대각선 범위 설정
+        #     for k in range(5):
+        #         if cells[self.row][self.col] == cells[self.row+k][self.col+k]:
+        #             a=self.row+k
+        #             b=self.col+k
+        #             count += 1
+        #             if count == 4:
+        #                 for j in range(4):
+        #                     cells[a-j+1][b-j+1].setBgColor(self.color)
+        #                 process_button.setText(restart_text[self.color])
+        #                 Turn = None
+        #                 return
+        #             else:
+        #                 count=1
+        #         else:
+        #             if cells[self.row][self.col] == cells[self.row+h][self.col+h]:
+        #                 count += 1
+        #                 if count == 4:
+        #                     for j in range(4):
+        #                         cells[a-j+1][b-j+1].setBgColor(self.color)
+        #                 process_button.setText(restart_text[self.color])
+        #                 Turn = None
+        #                 return
+        #             else:
+        #                 count=1                 
+
+
+
+            #if count < 4:
+                #if self.row-3 >= 0:
+                    # for k in range(6):
+                    #     if self.row - self.col <=2 and self.row - self.col >= -3:
+                    #         if cells[self.row-4+k][self.col-4+k] == cells[self.row-4+k+1][self.col-4+k+1]:
+                    #             count += 1
+                    #             a=self.row-4+k+1                            
+                    #             b=self.col-4+k+1
+                    #         if count == 4:
+                    #             for j in range(4):
+                    #                  cells[a-j+1][b-j+1].setBgColor(self.color)
+                    #             process_button.setText(restart_text[self.color])
+                    #             Turn = None
+                    #             return
+                    #         else:
+                    #             count=1
+            # process_button.setText(restart_text[self.color])         
+            # Turn = None
+            # return
+
+            
+
+        
+
+
+         #  pass
 
 
 
