@@ -45,6 +45,7 @@ class Cell(Canvas):
                 self.setColor(Turn)
                 self.__checkVertical(1)
                 self.__checkHorizontal()
+                self.__checkDiag2()
 
     def setColor(self, color):
         self.delete("oval")
@@ -84,26 +85,26 @@ class Cell(Canvas):
 
 
 
-    def __checkDiag2(self, count): # : ↙ 방향 대각선 확인.초기값 0으로하자
-        if count == 3:
-            if cells[self.row-count][self.col+count].color == cells[self.row-count+1][self.col+count-1].color == cells[self.row-count+2][self.col+count-2].color == cells[self.row-count+3][self.col+count-3].color == self.color != "white":
-                for i in range(4):
-                    cells[self.row-count+i][self.col+count-1].setBgColor(self.color)
-                process_button.setText(restart_text[self.color])
-                Turn = None
-                return
+    def __checkDiag2(self): # : ↙ 방향 대각선 확인
+        global Turn
+        x, y = self.row, self.col
+        count = 1
 
-        count += 1
-        if self.row - count >= 0 and self.col + count < _MAXCOL:
-            if cells[self.row-count][self.col+count].color == self.color:
-                self.__checkDiag1(count)
+        while(count < 4):
+            if self.row - count >= 0 and self.col + count < _MAXCOL:
+                x = self.row - count
+                y = self.col + count
+                count += 1
             else:
-                for i in range(4):
-                    cells[self.row-count+i][self.col+count-1].setBgColor(self.color)
-                process_button.setText(restart_text[self.color])
-                Turn = None
-                return
-        pass
+                break
+        
+        for i in range(count):
+            if x+i+3 < _MAXROW and y-i-3 >= 0:
+                if cells[x+i][y-i].color == cells[x+i+1][y-i-1].color == cells[x+i+2][y-i-2].color == cells[x+i+3][y-i-3].color == self.color != "white":
+                    for j in range(4):
+                        cells[x+i+j][y-i-j].setBgColor(self.color)
+                    process_button.setText(restart_text[self.color])
+                    Turn = None
 
 
 
