@@ -4,6 +4,23 @@ window = Tk() # Create a window
 window.title("Connect Four") # Set title
 
 
+
+_MAXROW = 6
+_MAXCOL = 7
+
+Turn = ("red", "yellow", None) #: 다음 놓을 차례 None(게임끝일때)
+turnNum = 0
+
+process_button = None #: 하단의 버튼
+
+restart_text ="새로 시작"
+# : process_button[“text”]로 사용.
+# : “새로 시작”인지 “~ 승리”인지 구분에 사용.
+
+def restart(): #함수 : process_button의 command 함수
+    pass
+
+
 class Cell(Canvas):
     def __init__(self, parent, row, col):
         Canvas.__init__(self, parent, width = 20, height = 20, bg = "blue", borderwidth = 2)
@@ -16,8 +33,10 @@ class Cell(Canvas):
         self.bind("<Button-1>", self.clicked)
 
     def clicked(self, event): # red 또는 yellow 돌 놓기.
-        nextcolor = "red" if self.color != "red" else "yellow"
-        self.setColor(nextcolor)
+        global turnNum
+        if(self.color == "white"):
+            self.setColor(Turn[turnNum])
+            turnNum = (turnNum + 1) % 2
 
     def setColor(self, color):
         self.delete("oval") # https://pythonguides.com/python-tkinter-canvas/
