@@ -6,8 +6,7 @@ window.title("Connect Four") # Set title
 _MAXROW = 6
 _MAXCOL = 7
 
-Turn = ("red", "yellow", None) #: 다음 놓을 차례, None(게임끝일때)
-turnNum = 0
+Turn = ""
 
 restart_text = dict(start = "새로 시작", red = "red 승리!", yellow = "yellow 승리!")
 
@@ -15,12 +14,12 @@ restart_text = dict(start = "새로 시작", red = "red 승리!", yellow = "yell
 
 def restart(): #함수 : process_button의 command 함수
     if process_button.text == restart_text['start']:
-        global turnNum
+        global Turn
         for i in range(_MAXROW): 
             for j in range(_MAXCOL):
                 cells[i][j].setColor("white")
                 cells[i][j].setBgColor("blue")
-        turnNum = 0
+        Turn = ""
     else:
         process_button.setText(restart_text['start'])
 
@@ -37,13 +36,13 @@ class Cell(Canvas):
         self.bind("<Button-1>", self.clicked)
     
     def clicked(self, event): # red 또는 yellow 돌 놓기.
-        global turnNum
-        if process_button.text != restart_text['start']:
+        global Turn
+        if Turn == None:
             return
         if self.color == "white": #비어있는 셀이면 바꾸기
             if self.row == _MAXROW - 1 or cells[self.row + 1][self.col].color != "white": #가장 밑에 있는 셀이면
-                self.setColor(Turn[turnNum])
-                turnNum = (turnNum + 1) % 2
+                Turn = "red" if Turn != "red" else "yellow"
+                self.setColor(Turn)
                 self.__checkVertical(1)
                 self.__checkHorizontal()
 
@@ -57,10 +56,12 @@ class Cell(Canvas):
     
 
     def __checkVertical(self, count): # : 열 방향 확인.
+        global Turn
         if count == 4:
             for i in range(4):
                 cells[self.row+i][self.col].setBgColor(self.color)
             process_button.setText(restart_text[self.color])
+            Turn = None
             return
         if self.row + count > 5:
             return
@@ -69,19 +70,39 @@ class Cell(Canvas):
         
 
     def __checkHorizontal(self): # : 행 방향 확인.
+        global Turn
         for i in range(4):
             if cells[self.row][i].color == cells[self.row][i+1].color == cells[self.row][i+2].color == cells[self.row][i+3].color == self.color != "white":
                 for j in range(4):
                     cells[self.row][i+j].setBgColor(self.color)
                 process_button.setText(restart_text[self.color])
+                Turn = None
 
 
-
-    def __checkDiag1(self, count): # : / 방향 대각선 확인.
+    def __checkDiag1(self, count): # : ↘ 방향 대각선 확인.
         pass
 
 
-    def __checkDiag2(self, count): # : \ 방향 대각선 확인.
+
+    def __checkDiag2(self, count): # : ↙ 방향 대각선 확인.초기값 0으로하자
+        if count == 3:
+            if cells[self.row-count][self.col+count].color == cells[self.row-count+1][self.col+count-1].color == cells[self.row-count+2][self.col+count-2].color == cells[self.row-count+3][self.col+count-3].color == self.color != "white":
+                for i in range(4):
+                    cells[self.row-count+i][self.col+count-1].setBgColor(self.color)
+                process_button.setText(restart_text[self.color])
+                Turn = None
+                return
+
+        count += 1
+        if self.row - count >= 0 and self.col + count < _MAXCOL:
+            if cells[self.row-count][self.col+count].color == self.color:
+                self.__checkDiag1(count)
+            else:
+                for i in range(4):
+                    cells[self.row-count+i][self.col+count-1].setBgColor(self.color)
+                process_button.setText(restart_text[self.color])
+                Turn = None
+                return
         pass
 
 
