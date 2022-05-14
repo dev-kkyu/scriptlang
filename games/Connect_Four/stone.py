@@ -14,8 +14,8 @@ restart_text = dict(start = "새로 시작", red = "red 승리!", yellow = "yell
 
 
 def restart(): #함수 : process_button의 command 함수
+    global Turn
     if process_button.text == restart_text['start']:
-        global Turn
         for i in range(_MAXROW): 
             for j in range(_MAXCOL):
                 cells[i][j].setColor("white")
@@ -24,8 +24,7 @@ def restart(): #함수 : process_button의 command 함수
     else:
         process_button.setText(restart_text['start'])
 
-def Winner():
-    pass
+
 
 class Cell(Canvas):
     def __init__(self, parent, row, col):
@@ -47,6 +46,7 @@ class Cell(Canvas):
                 self.__checkVertical(1)
                 self.__checkHorizontal()
                 self.__checkDiag1()
+                self.__checkDiag2()
 
     def setColor(self, color):
         self.delete("oval")
@@ -116,15 +116,13 @@ class Cell(Canvas):
             else:
                 break
         
-        for i in range(4):
+        for i in range(count):
             if x+i+3 < _MAXROW and y-i-3 >= 0:
                 if cells[x+i][y-i].color == cells[x+i+1][y-i-1].color == cells[x+i+2][y-i-2].color == cells[x+i+3][y-i-3].color == self.color != "white":
                     for j in range(4):
                         cells[x+i+j][y-i-j].setBgColor(self.color)
                     process_button.setText(restart_text[self.color])
                     Turn = None
-
-
 
 
 class pButton(Button):
@@ -139,11 +137,11 @@ class pButton(Button):
 
 
 
-
 frame1 = Frame(window)
 frame2 = Frame(window)
 frame1.pack()
 frame2.pack()
+
 
 cells = []
 
