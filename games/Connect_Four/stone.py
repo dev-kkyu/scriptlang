@@ -1,4 +1,3 @@
-from binascii import b2a_base64
 from tkinter import *
 
 window = Tk() # Create a window
