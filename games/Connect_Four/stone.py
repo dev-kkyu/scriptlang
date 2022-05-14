@@ -3,8 +3,6 @@ from tkinter import *
 window = Tk() # Create a window
 window.title("Connect Four") # Set title
 
-
-
 _MAXROW = 6
 _MAXCOL = 7
 
@@ -27,21 +25,23 @@ class Cell(Canvas):
         self.color = "white"
         self.row = row
         self.col = col
-        # https://tkdocs.com/shipman/canvas.html
-        # https://tkdocs.com/shipman/create_oval.html
         self.create_oval(4, 4, 20, 20, fill = "white", tags="oval")
         self.bind("<Button-1>", self.clicked)
-
+    
     def clicked(self, event): # red 또는 yellow 돌 놓기.
         global turnNum
-        if(self.color == "white"):
-            self.setColor(Turn[turnNum])
-            turnNum = (turnNum + 1) % 2
+        global cells
+        if self.color == "white": #비어있는 셀이면 바꾸기
+            if self.row == 5 or cells[self.row + 1][self.col].color != "white": #가장 밑에 있는 셀이면
+                self.setColor(Turn[turnNum])
+                turnNum = (turnNum + 1) % 2
 
     def setColor(self, color):
-        self.delete("oval") # https://pythonguides.com/python-tkinter-canvas/
+        self.delete("oval")
         self.color = color
         self.create_oval(4, 4, 20, 20, fill = self.color, tags="oval")
+
+    
 
 
 frame1 = Frame(window)
@@ -51,13 +51,17 @@ frame2.pack()
 
 cells = []
 
-for i in range(7): #i는 열
+for i in range(6): #i는 열
     cells.append([])
-    for j in range(6): #j는 행
-        cells[i].append(Cell(frame1, 5-j, i))
-        cells[i][j].grid(row = 5-j, column = i)
+    for j in range(7): #j는 행
+        cells[i].append(Cell(frame1, i, j))
+        cells[i][j].grid(row = i, column = j)
 
 
+restart_text = ["새로시작","red 승리!","yellow 승리!"]
+
+process_button  = Button(frame2, text="새로시작")
+process_button.pack()
 
 
 
