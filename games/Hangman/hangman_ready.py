@@ -4,7 +4,14 @@ from random import *
     
 class Hangman:
     def __init__(self):
-        self.hiddenWord = words[randint(0, len(words) - 1)]
+        self.hiddenWord = list(words[randint(0, len(words) - 1)])
+        self.guessWord = []
+        self.guessWord.append(['*' for i in range(len(self.hiddenWord))])
+        self.nCorrectChar = 0
+        self.nMissChar = 0
+        self.nMissedLetters = []
+        self.finished = 0
+        self.setWord()
         self.draw()
 
 
@@ -54,11 +61,44 @@ class Hangman:
         y2 = 140 + 60 * math.sin(math.radians(45))
 
         canvas.create_line(x1, y1, x2, y2, tags = "hangman")
+
+        canvas.create_text(200, 210, text= "정답",font=('맑은 고딕', 15))
+        canvas.create_text(200, 240, text= "게임을 계속하려면 Enter를 누르세요",font=('맑은 고딕', 15)) 
     
     def setWord(self):
-        self.hiddenWord = words[randint(0, len(words) - 1)]
-        self.draw()
-        pass
+        self.hiddenWord = list(words[randint(0, len(words) - 1)])
+        self.guessWord = []
+        self.guessWord.append(['*' for i in range(len(self.hiddenWord))])
+        self.nCorrectChar = 0
+        self.nMissChar = 0
+        self.nMissedLetters = []
+        self.finished = 0
+    
+    def guess(self, spel):
+        for i in self.guessWord:
+            if spel == i: break
+        else: return
+
+        for i in self.nMissedLetters:
+            if spel == i: break
+        else: return
+
+        count = self.nCorrectChar
+        for i, x in enumerate(self.hiddenWord):
+            if spel == x:
+                self.guessWord[i] = spel
+                self.nCorrectChar += 1
+            if self.nCorrectChar == len(self.hiddenWord):
+                finished = 1
+                break
+            if count == self.nCorrectChar:
+                self.nMissChar += 1
+                self.nMissedLetters.append(spel)
+                if self.nMissChar == 7:
+                    finished = 2
+                    break
+                
+            
         
         
 # Initialize words, get the words from a file
@@ -71,8 +111,11 @@ window.title("행맨") # Set a title
 def processKeyEvent(event):  
     global hangman
     if event.char >= 'a' and event.char <= 'z':
+        canvas.guess(event.char)
         pass
     elif event.keycode == 13:
+        if canvas.finished != 0:
+            canvas.setWord()
         pass
     
 width = 400
