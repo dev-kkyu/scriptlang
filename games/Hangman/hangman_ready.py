@@ -1,9 +1,12 @@
 import math
 from tkinter import * # Import tkinter
+from random import *
     
 class Hangman:
     def __init__(self):
+        self.hiddenWord = words[randint(0, len(words) - 1)]
         self.draw()
+
 
     def draw(self):
         # 한꺼번에 지울 요소들을 "hangman" tag로 묶어뒀다가 일괄 삭제.
@@ -28,6 +31,35 @@ class Hangman:
         y2 = 60 + (radius+60) * math.sin(math.radians(45))
 
         canvas.create_line(x1, y1, x2, y2, tags = "hangman")
+
+        x1 = 160 + radius * math.cos(math.radians(45))
+        y1 = 60 + radius * math.sin(math.radians(45))
+        x2 = 160 + (radius+60) * math.cos(math.radians(45))
+        y2 = 60 + (radius+60) * math.sin(math.radians(45))
+
+        canvas.create_line(x1, y1, x2, y2, tags = "hangman")
+
+        canvas.create_line(160, 80, 160, 140, tags = "hangman") # Draw the hanger
+
+        x1 = 160
+        y1 = 140
+        x2 = 160 - 60 * math.cos(math.radians(45))
+        y2 = 140 + 60 * math.sin(math.radians(45))
+
+        canvas.create_line(x1, y1, x2, y2, tags = "hangman")
+
+        x1 = 160
+        y1 = 140
+        x2 = 160 + 60 * math.cos(math.radians(45))
+        y2 = 140 + 60 * math.sin(math.radians(45))
+
+        canvas.create_line(x1, y1, x2, y2, tags = "hangman")
+    
+    def setWord(self):
+        self.hiddenWord = words[randint(0, len(words) - 1)]
+        self.draw()
+        pass
+        
         
 # Initialize words, get the words from a file
 infile = open("hangman.txt", "r")
