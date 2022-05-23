@@ -24,7 +24,7 @@ def LoadSubwayTimetable(subway):
     time_data={}
     for i in code:
 
-        url="http://openAPI.seoul.go.kr:8088/515a78647a64646f313134534b664274/json/SearchSTNTimeTableByIDService/1/10/"+i['STATION_CD']+"/1/1/"
+        url="http://openAPI.seoul.go.kr:8088/515a78647a64646f313134534b664274/json/SearchSTNTimeTableByIDService/1/1000/"+i['STATION_CD']+"/1/1/"
 
         res = requests.get(url)
         res_data = res.json()
@@ -41,7 +41,7 @@ def LoadSubwayTimetable(subway):
 
         time =[]
 
-        url="http://openAPI.seoul.go.kr:8088/515a78647a64646f313134534b664274/json/SearchSTNTimeTableByIDService/1/10/"+i['STATION_CD']+"/1/2/"
+        url="http://openAPI.seoul.go.kr:8088/515a78647a64646f313134534b664274/json/SearchSTNTimeTableByIDService/1/1000/"+i['STATION_CD']+"/1/2/"
 
         res = requests.get(url)
         res_data = res.json()

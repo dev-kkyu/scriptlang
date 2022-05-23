@@ -1,18 +1,22 @@
+from loadapi import *
 from tkinter import *
-import loadapi
 
 window = Tk()  # Gui 생성
 window.title("Subway")  # 창이름설정
-window.geometry("980x600+100+100")  # 창사이즈설정
+window.geometry("990x600+100+100")  # 창사이즈설정
 window.resizable(False, True)  # 사이즈 변경 허용
 
-def outputScheduld():
+def outputSchedule():
    global lineimage
    data = LoadSubwayTimetable(input_text.get())
    listbox2.delete(0, END)
+   listbox3.delete(0, END)
    for i, x in enumerate(data['Schedule']['1']):
       listbox2.insert(i, x)
-   lineimage = PhotoImage(file = "./image/"+data['LINE_NM']+".gif").subsample(50, 50)
+   for i, x in enumerate(data['Schedule']['2']):
+      listbox3.insert(i, x)
+
+   lineimage = PhotoImage(file = "./image/"+'5'+".gif").subsample(50, 50)
    linephoto.config(image = lineimage)
    pass
 
@@ -43,7 +47,7 @@ textframe.pack(side = "left", padx = 20)
 input_text = Entry(textframe, width=30, font = ("맑은 고딕",15))
 input_text.pack(fill = "both", side = "left")
 
-button = Button(textframe, text="검색", command = outputScheduld, font = ("맑은 고딕",15), height= 1, width = 7, bg = "#92D050", padx = 10)
+button = Button(textframe, text="검색", command = outputSchedule, font = ("맑은 고딕",15), height= 1, width = 7, bg = "#92D050", padx = 10)
 button.pack( side = "left")
 
 frame2 = Frame(Main, bg = "#FFFFFF")
@@ -67,31 +71,44 @@ frame3right = Frame(frame3, relief = "solid", bd=1)
 frame3left.pack(fill="both", side = "left")
 frame3right.pack(fill="both", side = "left", expand = True)
 
-subwaylist = Label(frame3left, text = "호선별 역 목록", width = 68, height = 2, relief = "solid", bd=1, bg = "#64C044")
-subwaytime = Label(frame3right, text = "역 열차 시간표", height = 2, relief = "solid", bd=1, bg = "#64C044")
+subwaylist = Label(frame3left, text = "호선별 역 목록", font = ("맑은 고딕", 15, "bold"), width = 40, height = 1, relief = "solid", bd=1, bg = "#64C044")
+subwaytime = Label(frame3right, text = "역 열차 시간표", font = ("맑은 고딕", 15, "bold"), height = 1, relief = "solid", bd=1, bg = "#64C044")
 
 subwaylist.pack(fill = "both")
 subwaytime.pack(fill = "both")
 
+frame3rightup = Frame(frame3right, relief = "solid", bd=1)
+frame3rightdown = Frame(frame3right, relief = "solid", bd=1)
+frame3rightup.pack(fill="both", side = "left")
+frame3rightdown.pack(fill="both", side = "left", expand = True)
+
+uplabel = Label(frame3rightup, text = '상행, 내선', height = 1)
+downlabel = Label(frame3rightdown, text = '하행, 외선', height = 1)
+uplabel.pack(fill = "both")
+downlabel.pack(fill = "both")
+
 listscroll1 = Scrollbar(frame3left)
-listscroll2 = Scrollbar(frame3right)
+listscroll2 = Scrollbar(frame3rightup)
+listscroll3 = Scrollbar(frame3rightdown)
 
 listscroll1.pack(fill = "y", side = "right")
 listscroll2.pack(fill = "y", side = "right")
+listscroll3.pack(fill = "y", side = "right")
 
 listbox1=Listbox(frame3left, yscrollcommand = listscroll1.set, font = ('맑은 고딕', 20), height = 1)
-for line in range(1,1001):
-   listbox1.insert(line, str(line) + "/1000")
 listbox1.pack(side="left", fill = "both", expand = True)
 
 listscroll1["command"]=listbox1.yview
 
-listbox2=Listbox(frame3right, yscrollcommand = listscroll2.set, font = ('맑은 고딕', 20), height = 1)
-for line in range(1,1001):
-   listbox2.insert(line, str(line) + "/1000")
+listbox2=Listbox(frame3rightup, yscrollcommand = listscroll2.set, font = ('맑은 고딕', 20), width = 15, height = 1)
 listbox2.pack(side="left", fill = "both", expand = True)
 
 listscroll2["command"]=listbox2.yview
+
+listbox3=Listbox(frame3rightdown, yscrollcommand = listscroll3.set, font = ('맑은 고딕', 20), height = 1)
+listbox3.pack(side="left", fill = "both", expand = True)
+
+listscroll3["command"]=listbox3.yview
 
 frame4 = Frame(Main, relief = "solid", bd=1, bg = "#FFFFFF")
 frame4.pack(fill="both", side = "bottom")
