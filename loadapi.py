@@ -1,32 +1,58 @@
 import requests
-import pprint
 
-while True:
-    subway = input("검색할역: ")
+# 역이름 입력받고 해당 코드로 변환(API)된 코드로 시간표 받기(API)
+def LoadSubwayTimetable(subway):
 
-    url = 'http://openapi.seoul.go.kr:8088/586d64614a64657631313149706f4e59/json/SearchInfoBySubwayNameService/1/5/'+subway
+    #역명별 지하철역 정보(역코드,호선)
 
+    url="http://openAPI.seoul.go.kr:8088/7a65564f5264646f3131327078794f70/json/SearchInfoBySubwayNameService/1/5/"+subway
 
-    response = requests.get(url)
-    data = response.json()
+    res = requests.get(url)
+    data = res.json()
 
-    # pp = pprint.PrettyPrinter()
-    pprint.PrettyPrinter().pprint(data)
+    #print(data)
 
-    # for i in data['SearchInfoBySubwayNameService']['row']:
-    #     pp = pprint.PrettyPrinter()
-    #     pp.pprint(i)
+    code = data['SearchInfoBySubwayNameService']['row']
+    #print(code)
 
-        # print(i['STATION_CD'], i['STATION_NM'], i['LINE_NUM'])
+    #print(code[0]['STATION_CD'])
 
-    # time = []
+    #{'LINE_NUM' : '4호선', 'Schedule' : {'1' :  ['00:05:51', '00:05:59'], '2' : ['00:05:53', '00:06:01']} }
+    #data['Schedule']=
+    data ={}
+    time =[]
+    time_data={}
+    for i in code:
 
-    # for i in data['SearchInfoBySubwayNameService']['row']:
-    #     time.append(requests.get('http://openAPI.seoul.go.kr:8088/585977514d6465763131374e4f695744/json/SearchSTNTimeTableByIDService/1/5/' + i['STATION_CD'] + '/1/1/').json())
+        url="http://openAPI.seoul.go.kr:8088/515a78647a64646f313134534b664274/json/SearchSTNTimeTableByIDService/1/10/"+i['STATION_CD']+"/1/1/"
 
-    # for i in time:
-    #     for j in i['SearchSTNTimeTableByIDService']['row']:
-    #         print(j['STATION_CD'], j['STATION_NM'], j['TRAIN_NO'], j['ARRIVETIME'], j['LEFTTIME'], j['INOUT_TAG'])
-        # print(i['STATION_CD'], i['STATION_NM'], i['LINE_NUM'])
+        res = requests.get(url)
+        res_data = res.json()
 
-    # time = 'http://openAPI.seoul.go.kr:8088/585977514d6465763131374e4f695744/json/SearchSTNTimeTableByIDService/1/5/2561/1/1/'
+        a = res_data['SearchSTNTimeTableByIDService']['row']
+
+        data['LINE_NUM']=i['LINE_NUM']
+
+        for i in a:
+           # print('호선:',i['LINE_NUM'],'출발시간:',i['LEFTTIME'],'상하행선:',i['INOUT_TAG'])
+            time.append(i['LEFTTIME'])
+        time_data['1']=time
+        data['Schedule']=time_data
+
+        time =[]
+
+        url="http://openAPI.seoul.go.kr:8088/515a78647a64646f313134534b664274/json/SearchSTNTimeTableByIDService/1/10/"+i['STATION_CD']+"/1/2/"
+
+        res = requests.get(url)
+        res_data = res.json()
+
+        a = res_data['SearchSTNTimeTableByIDService']['row']
+
+        for i in a:
+            #print('호선:',i['LINE_NUM'],'출발시간:',i['LEFTTIME'],'상하행선:',i['INOUT_TAG'])
+            time.append(i['LEFTTIME'])
+        time_data['2']=time
+        data['Schedule']=time_data
+
+    #print(data)
+    return data
