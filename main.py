@@ -17,16 +17,22 @@ class LineNumButton(Button):
       self.linenum = text[0]
    
    def onClick(self):
+      global lineimage
       data = LoadSubwaystationtable(self.linenum)
       listbox1.delete(0, END)
       for i, x in enumerate(data):
          listbox1.insert(i, x)
 
+      lineimage = PhotoImage(file = "./image/"+self.linenum+".png").subsample(16, 16)
+      linephoto.config(image = lineimage)
 
 
-def outputSchedule():
-   global lineimage
-   data = LoadSubwayTimetable(input_text.get())
+
+def commandoutputSchedule():
+   outputSchedule(input_text.get())
+
+def outputSchedule(STATION_NM):
+   data = LoadSubwayTimetable(STATION_NM)
    listbox2.delete(0, END)
    listbox3.delete(0, END)
    for i, x in enumerate(data['Schedule']['1']):
@@ -35,10 +41,6 @@ def outputSchedule():
       listbox3.insert(i, x)
    
    subwaytime.config(text = input_text.get()+"역 열차 시간표")
-
-   lineimage = PhotoImage(file = "./image/"+'5'+".gif").subsample(50, 50)
-   linephoto.config(image = lineimage)
-   pass
 
 
 
@@ -67,7 +69,7 @@ textframe.pack(side = "left", padx = 20)
 input_text = Entry(textframe, width=30, font = ("맑은 고딕",15))
 input_text.pack(fill = "both", side = "left")
 
-button = Button(textframe, text="검색", command = outputSchedule, font = ("맑은 고딕",15), height= 1, width = 7, bg = "#92D050", padx = 10)
+button = Button(textframe, text="검색", command = commandoutputSchedule, font = ("맑은 고딕",15), height= 1, width = 7, bg = "#92D050", padx = 10)
 button.pack( side = "left")
 
 frame2 = Frame(Main, bg = "#FFFFFF")
@@ -82,7 +84,7 @@ for i in range(8):
    subwayLineButton.append(LineNumButton(frame2, text = str(i+1)+"호선"))
    subwayLineButton[i].pack(side = "left", padx = 5, pady = 13)
 
-lineimage = PhotoImage(file = "./image/4.png").subsample(16,16)
+lineimage = PhotoImage(file = "./image/1.png").subsample(16,16)
 linephoto = Label(frame2, image = lineimage, bg = "#FFFFFF", padx = 20)
 
 linephoto.pack(fill = "both", side = "right")
@@ -123,6 +125,15 @@ listbox1=Listbox(frame3left, yscrollcommand = listscroll1.set, font = ('맑은 �
 listbox1.pack(side="left", fill = "both", expand = True)
 
 listscroll1["command"]=listbox1.yview
+
+def event_for_listbox(event):
+   input_text.delete(0, END)
+   input_text.insert(0, listbox1.get(listbox1.curselection()[0]))
+   outputSchedule(listbox1.get(listbox1.curselection()[0]))
+
+   #  print(listbox1.get(listbox1.curselection()[0]))
+
+listbox1.bind('<<ListboxSelect>>', event_for_listbox)
 
 listbox2=Listbox(frame3rightup, yscrollcommand = listscroll2.set, font = ('맑은 고딕', 20), width = 15, height = 1)
 listbox2.pack(side="left", fill = "both", expand = True)
