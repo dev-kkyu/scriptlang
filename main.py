@@ -6,6 +6,24 @@ window.title("Subway")  # 창이름설정
 window.geometry("990x600+100+100")  # 창사이즈설정
 window.resizable(False, True)  # 사이즈 변경 허용
 
+# subwayLineButton = []
+# for i in range(8):
+#     subwayLineButton.append(Button(frame2, text=str(i+1)+"호선", font = ("맑은 고딕", 15, "bold"), width = 7, height = 1, fg = "white", bg = "#92D050"))
+#     subwayLineButton[i].pack(side = "left", padx = 5, pady = 13)
+
+class LineNumButton(Button):
+   def __init__(self, container, text):
+      Button.__init__(self, container, text = text, command = self.onClick, font = ("맑은 고딕", 15, "bold"), width = 7, height = 1, fg = "white", bg = "#92D050")
+      self.linenum = text[0]
+   
+   def onClick(self):
+      data = LoadSubwaystationtable(self.linenum)
+      listbox1.delete(0, END)
+      for i, x in enumerate(data):
+         listbox1.insert(i, x)
+
+
+
 def outputSchedule():
    global lineimage
    data = LoadSubwayTimetable(input_text.get())
@@ -15,6 +33,8 @@ def outputSchedule():
       listbox2.insert(i, x)
    for i, x in enumerate(data['Schedule']['2']):
       listbox3.insert(i, x)
+   
+   subwaytime.config(text = input_text.get()+"역 열차 시간표")
 
    lineimage = PhotoImage(file = "./image/"+'5'+".gif").subsample(50, 50)
    linephoto.config(image = lineimage)
@@ -54,9 +74,13 @@ frame2 = Frame(Main, bg = "#FFFFFF")
 frame2.pack(fill="both", padx = 20)
 
 subwayLineButton = []
+# for i in range(8):
+#     subwayLineButton.append(Button(frame2, text=str(i+1)+"호선", font = ("맑은 고딕", 15, "bold"), width = 7, height = 1, fg = "white", bg = "#92D050"))
+#     subwayLineButton[i].pack(side = "left", padx = 5, pady = 13)
+
 for i in range(8):
-    subwayLineButton.append(Button(frame2, text=str(i+1)+"호선", font = ("맑은 고딕", 15, "bold"), width = 7, height = 1, fg = "white", bg = "#92D050"))
-    subwayLineButton[i].pack(side = "left", padx = 5, pady = 13)
+   subwayLineButton.append(LineNumButton(frame2, text = str(i+1)+"호선"))
+   subwayLineButton[i].pack(side = "left", padx = 5, pady = 13)
 
 lineimage = PhotoImage(file = "./image/4.png").subsample(16,16)
 linephoto = Label(frame2, image = lineimage, bg = "#FFFFFF", padx = 20)

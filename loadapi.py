@@ -61,19 +61,19 @@ def LoadSubwayTimetable(subway):
 
 def LoadSubwaystationtable(line):
 
-    url="http://openapi.seoul.go.kr:8088/515a78647a64646f313134534b664274/json/CardSubwayTime/1/1000/202111/"+line+"호선"
+    url = "http://openapi.seoul.go.kr:8088/515a78647a64646f313134534b664274/json/SearchSTNBySubwayLineInfo/1/1000/ / /"+line+"호선/"
     res = requests.get(url)
     data = res.json()
 
     #print(data)
 
-    code = data['CardSubwayTime']['row']
+    code = data['SearchSTNBySubwayLineInfo']['row']
     #print(code)
 
     station = []
     for i in code:
         #print(i['SUB_STA_NM'])
-        station.append(i['SUB_STA_NM'])
+        station.append(i['STATION_NM'])
 
     #print(station)
     return station
