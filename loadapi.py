@@ -5,14 +5,15 @@ def LoadSubwayTimetable(subway):
 
     #역명별 지하철역 정보(역코드,호선)
 
-    url="http://openAPI.seoul.go.kr:8088/7a65564f5264646f3131327078794f70/json/SearchInfoBySubwayNameService/1/5/"+subway
+    url="http://openapi.seoul.go.kr:8088/7a65564f5264646f3131327078794f70/json/SearchSTNBySubwayLineInfo/1/1000/ /"+subway
+
 
     res = requests.get(url)
     data = res.json()
 
     #print(data)
 
-    code = data['SearchInfoBySubwayNameService']['row']
+    code = data['SearchSTNBySubwayLineInfo']['row']
     #print(code)
 
     #print(code[0]['STATION_CD'])
