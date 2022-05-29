@@ -1,3 +1,4 @@
+from tkinter import messagebox
 from loadapi import *
 from tkinter import *
 
@@ -35,6 +36,11 @@ def commandoutputSchedule():
 
 def outputSchedule(STATION_NM):
    data = LoadSubwayTimetable(STATION_NM)
+
+   if(data==False):
+      messagebox.showinfo("알림", "해당 데이터가 없습니다.")
+      return
+
    listbox2.delete(0, END)
    listbox3.delete(0, END)
    for i, x in enumerate(data['Schedule']['1']):
@@ -70,8 +76,16 @@ Title.pack(fill = "both")
 textframe = Frame(frame1right, relief = "flat", bd=3, bg = "#64C044")
 textframe.pack(side = "left", padx = 20)
 
-input_text = Entry(textframe, width=30, font = ("맑은 고딕",15))
+textEntry = StringVar()
+textEntry.set("호선 선택 후 입력해 주세요")
+
+input_text = Entry(textframe, textvariable = textEntry, width=30, font = ("맑은 고딕",15), fg = 'grey')
 input_text.pack(fill = "both", side = "left")
+
+def event_for_entry(event):
+   input_text.delete(0, END)
+   input_text.config(fg = 'black')
+input_text.bind('<Button-1>', event_for_entry)
 
 button = Button(textframe, text="검색", command = commandoutputSchedule, font = ("맑은 고딕",15), height= 1, width = 7, bg = "#92D050", padx = 10)
 button.pack( side = "left")
