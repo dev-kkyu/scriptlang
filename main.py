@@ -7,10 +7,7 @@ window.title("Subway")  # 창이름설정
 window.geometry("990x630+100+100")  # 창사이즈설정
 window.resizable(False, True)  # 사이즈 변경 허용
 
-# subwayLineButton = []
-# for i in range(8):
-#     subwayLineButton.append(Button(frame2, text=str(i+1)+"호선", font = ("맑은 고딕", 15, "bold"), width = 7, height = 1, fg = "white", bg = "#92D050"))
-#     subwayLineButton[i].pack(side = "left", padx = 5, pady = 13)
+Line = 1
 
 class LineNumButton(Button):
    def __init__(self, container, text):
@@ -19,8 +16,15 @@ class LineNumButton(Button):
    
    def onClick(self):
       global lineimage
+      global Line
+      Line = self.linenum
+
       data = LoadSubwaystationtable(self.linenum)
       listbox1.delete(0, END)
+      listbox2.delete(0, END)
+      listbox3.delete(0, END)
+      subwaytime.config(text = "역 열차 시간표")
+      
       for i, x in enumerate(data):
          listbox1.insert(i, x)
 
@@ -35,7 +39,9 @@ def commandoutputSchedule():
    outputSchedule(input_text.get())
 
 def outputSchedule(STATION_NM):
-   data = LoadSubwayTimetable(STATION_NM)
+   if STATION_NM == '':
+      return
+   data = LoadSubwayTimetable(STATION_NM, Line)
 
    if(data==False):
       messagebox.showinfo("알림", "해당 데이터가 없습니다.")

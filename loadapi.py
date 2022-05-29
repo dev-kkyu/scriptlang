@@ -40,6 +40,9 @@ def Code2Timetable(code):
     res = requests.get(url)
     res_data = res.json()
 
+    if 'RESULT' in res_data:
+        return False
+
     a = res_data['SearchSTNTimeTableByIDService']['row']
 
     # data['LINE_NUM']=a[0]['LINE_NUM']
@@ -54,6 +57,9 @@ def Code2Timetable(code):
 
     res = requests.get(url)
     res_data = res.json()
+
+    if 'RESULT' in res_data:
+        return False
 
     a = res_data['SearchSTNTimeTableByIDService']['row']
 
