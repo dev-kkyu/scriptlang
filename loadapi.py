@@ -12,14 +12,16 @@ def LoadSubwayTimetable(subway):
     data = res.json()
 
     #print(data)
+    
 
     code = data['SearchSTNBySubwayLineInfo']['row']
     #print(code)
 
-    #print(code[0]['STATION_CD'])
+    #Code2TimeTable(code)
+    
+    return Code2TimeTable(code)
 
-    #{'LINE_NUM' : '4호선', 'Schedule' : {'1' :  ['00:05:51', '00:05:59'], '2' : ['00:05:53', '00:06:01']} }
-    #data['Schedule']=
+def Code2TimeTable(code):
     data ={}
     time =[]
     time_data={}
