@@ -1,4 +1,4 @@
-from loadapi import Code2Timetable
+from modules.loadapi import Code2Timetable
 from email.mime.text import MIMEText # MIMEtexe 생성에 사용
 
 
