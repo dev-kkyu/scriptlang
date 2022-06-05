@@ -42,19 +42,31 @@ def outputSchedule(STATION_NM):
    if STATION_NM == '':
       return
    data = LoadSubwayTimetable(STATION_NM, Line)
+   
+   msg = "해당 데이터가 없습니다."
 
-   if(data==False):
-      messagebox.showinfo("알림", "해당 데이터가 없습니다.")
+   if(data['info'] == False):
+      if('data' in data):
+         temp = []
+         for i in data['data']:
+            if i['STATION_NM'] == STATION_NM:
+               temp.append(i['LINE_NUM'])
+         if temp != []:
+            msg += '\n'
+            msg += ', '.join(temp)
+            msg += "에 " + STATION_NM + " 역이 존재합니다."
+
+      messagebox.showinfo("알림", msg)
       return
 
    listbox2.delete(0, END)
    listbox3.delete(0, END)
-   for i, x in enumerate(data['Schedule']['1']):
+   for i, x in enumerate(data['data']['Schedule']['1']):
       listbox2.insert(i, x)
-   for i, x in enumerate(data['Schedule']['2']):
+   for i, x in enumerate(data['data']['Schedule']['2']):
       listbox3.insert(i, x)
    
-   subwaytime.config(text = input_text.get()+"역 열차 시간표")
+   subwaytime.config(text = data['data']['STATION_NM']+"역 열차 시간표")
 
 
 
