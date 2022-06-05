@@ -132,11 +132,15 @@ class subWindow:
       # sendMail('jjaeunjj@gmail.com', "jaeun224@naver.com", 4114)
 
 def MakeWindow():
-   makewindow = subWindow()
+   subWindow()
 
 def showMap():
    from map_show import mapview
    mapview(input_text.get() + '역')
+
+def showGraph():
+   from graph import drawGraph
+   drawGraph(Line + '호선', input_text.get())
 
 
 
@@ -274,13 +278,18 @@ listscroll3["command"]=listbox3.yview
 frame4 = Frame(Main, bd=0, bg = "#FFFFFF")
 frame4.pack(fill="both", side = "bottom")
 
-graphframe = Frame(frame4, bd=0, width = 696, height = 135, bg = "#FFFFFF")
+graphframe = Frame(frame4, bd=0, width = 560, height = 135, bg = "#FFFFFF")
 graphframe.pack(fill = "both", side = "left")
+
+graphphoto = PhotoImage(file = "./image/graph.png").subsample(5, 5)
 emailphoto = PhotoImage(file = "./image/email.png").subsample(5, 5)
 mapphoto = PhotoImage(file = "./image/map.png").subsample(5, 5)
+
+graph = Button(frame4, command = showGraph, width = 115, image = graphphoto, bg = "#FFFFFF")
 email = Button(frame4, command = MakeWindow, width = 115, image = emailphoto, bg = "#FFFFFF")
 kakaomap = Button(frame4, command = showMap, image = mapphoto, bg = "#FFFFFF")
 
+graph.pack(fill = "both", side = "left", padx = 10, pady = 10)
 email.pack(fill = "both", side = "left", padx = 10, pady = 10)
 kakaomap.pack(fill = "both", side = "left", expand = True, padx = 10, pady = 10)
 

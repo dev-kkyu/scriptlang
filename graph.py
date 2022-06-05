@@ -1,7 +1,16 @@
 import requests
 from tkinter import * 
 
-def drawGraph(canvas, line, subway, canvasWidth, canvasHeight):
+def drawGraph(line, subway):
+    canvasWidth = 1000
+    canvasHeight = 300
+
+
+    graphwindow = Toplevel()
+    graphwindow.title('Graph') 
+    graphwindow.geometry("1000x300+200+100") 
+    w = Canvas(graphwindow, width = canvasWidth, height=canvasHeight) 
+    w.place(relx=.5, rely=.5,anchor= CENTER) # 한가운데 위치. 
 
     url = "http://openapi.seoul.go.kr:8088/7a65564f5264646f3131327078794f70/json/CardSubwayTime/1/1000/202111/"+line+"/"+subway+"/"
     res = requests.get(url)
@@ -35,9 +44,9 @@ def drawGraph(canvas, line, subway, canvasWidth, canvasHeight):
     passengers.append(ride_num['MIDNIGHT_RIDE_NUM'])
 
 
-    canvas.delete("grim") # 기존 그림 지우기
+    w.delete("grim") # 기존 그림 지우기
     if not len(passengers): # 데이터 없으면 return
-        canvas.create_text(canvasWidth/2,(canvasHeight/2), text="No Data", tags="grim") 
+        w.create_text(canvasWidth/2,(canvasHeight/2), text="No Data", tags="grim") 
         return
 
     nData = len(passengers) # 데이터 개수, 최대값, 최소값 얻어 놓기
@@ -45,7 +54,7 @@ def drawGraph(canvas, line, subway, canvasWidth, canvasHeight):
     #nMin = min(data)
 
     # background 그리기
-    canvas.create_rectangle(0, 0, canvasWidth, canvasHeight, fill='white', tag="grim")
+    w.create_rectangle(0, 0, canvasWidth, canvasHeight, fill='white', tag="grim")
 
     if nMax == 0: # devide by zero 방지
         nMax=1 
@@ -66,20 +75,8 @@ def drawGraph(canvas, line, subway, canvasWidth, canvasHeight):
         top = bottom - curHeight # bar의 top 위치
         left = i * rectWidth # bar의 left 위치
         right = (i + 1) * rectWidth # bar의 right 위치
-        canvas.create_rectangle(left, top, right, bottom, fill=color, tag="grim", activefill='yellow')
+        w.create_rectangle(left, top, right, bottom, fill=color, tag="grim", activefill='yellow')
 # 위에 값, 아래에 번호. 
-        canvas.create_text((left+right)//2, top-10, text=passengers[i], tags="grim") #승차인원수
-        canvas.create_text((left+right)//2, bottom+10, text=i+4, tags="grim") #시간
-
-
-
-window = Tk() 
-window.title('Graph') 
-window.geometry("1000x300+200+100") 
-w = Canvas(window, width = 1000, height=300) 
-w.place(relx=.5, rely=.5,anchor= CENTER) # 한가운데 위치. 
-
-#drawGraph(w, "1호선","서울역",1000, 300)
-
-window.mainloop()
+        w.create_text((left+right)//2, top-10, text=passengers[i], tags="grim") #승차인원수
+        w.create_text((left+right)//2, bottom+10, text=i+4, tags="grim") #시간
 
