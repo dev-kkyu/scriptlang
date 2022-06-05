@@ -1,14 +1,15 @@
 import requests
 from tkinter import * 
+import spam
 
 def drawGraph(line, subway):
     canvasWidth = 1000
-    canvasHeight = 300
+    canvasHeight = 330
 
 
     graphwindow = Toplevel()
     graphwindow.title('Graph') 
-    graphwindow.geometry("1000x300+200+100") 
+    graphwindow.geometry("1000x330+200+100") 
     w = Canvas(graphwindow, width = canvasWidth, height=canvasHeight) 
     w.place(relx=.5, rely=.5,anchor= CENTER) # 한가운데 위치. 
 
@@ -42,6 +43,7 @@ def drawGraph(line, subway):
     passengers.append(ride_num['TWENTY_TWO_RIDE_NUM'])
     passengers.append(ride_num['TWENTY_THREE_RIDE_NUM'])
     passengers.append(ride_num['MIDNIGHT_RIDE_NUM'])
+    
 
 
     w.delete("grim") # 기존 그림 지우기
@@ -61,7 +63,7 @@ def drawGraph(line, subway):
 
     rectWidth = (canvasWidth // nData) # 데이터 1개의 폭. 
     bottom = canvasHeight - 20 # bar의 bottom 위치 
-    maxheight = canvasHeight - 40 # bar의 최대 높이.(위/아래 각각 20씩 여유.)
+    maxheight = canvasHeight - 50 # bar의 최대 높이.(위/아래 각각 20씩 여유.)
 
     for i in range(nData): # 각 데이터에 대해..
     #      # max/min은 특별한 색으로.
@@ -77,6 +79,6 @@ def drawGraph(line, subway):
         right = (i + 1) * rectWidth # bar의 right 위치
         w.create_rectangle(left, top, right, bottom, fill=color, tag="grim", activefill='yellow')
 # 위에 값, 아래에 번호. 
-        w.create_text((left+right)//2, top-10, text=passengers[i], tags="grim") #승차인원수
+        w.create_text((left+right)//2, top-15, text=spam.stradd(str(passengers[i])), tags="grim") #승차인원수
         w.create_text((left+right)//2, bottom+10, text=i+4, tags="grim") #시간
 
