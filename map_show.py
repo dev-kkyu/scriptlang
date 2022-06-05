@@ -17,4 +17,4 @@ def mapview(subway):
 
     root.mainloop()
 
-mapview("정왕역")
+# mapview("정왕역")

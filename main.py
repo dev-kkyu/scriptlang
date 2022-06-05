@@ -134,6 +134,12 @@ class subWindow:
 def MakeWindow():
    makewindow = subWindow()
 
+def showMap():
+   from map_show import mapview
+   mapview(input_text.get() + '역')
+
+
+
 frameside = Frame(window, relief="flat", bd=6, bg="#00B050") # 테두리 전용 프레임
 Main = Frame(frameside, bd=0, bg = "#FFFFFF") # 메인창
 
@@ -273,7 +279,7 @@ graphframe.pack(fill = "both", side = "left")
 emailphoto = PhotoImage(file = "./image/email.png").subsample(5, 5)
 mapphoto = PhotoImage(file = "./image/map.png").subsample(5, 5)
 email = Button(frame4, command = MakeWindow, width = 115, image = emailphoto, bg = "#FFFFFF")
-kakaomap = Button(frame4, image = mapphoto, bg = "#FFFFFF")
+kakaomap = Button(frame4, command = showMap, image = mapphoto, bg = "#FFFFFF")
 
 email.pack(fill = "both", side = "left", padx = 10, pady = 10)
 kakaomap.pack(fill = "both", side = "left", expand = True, padx = 10, pady = 10)
