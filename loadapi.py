@@ -28,7 +28,7 @@ def LoadSubwayTimetable(subway,line):
             return dict(info=False)
         linedata=[]
         for i in data['SearchSTNBySubwayLineInfo']['row']:
-            linedata.append(i['LINE_NUM'])
+            linedata.append(dict(STATION_NM = i['STATION_NM'], LINE_NUM=i['LINE_NUM']))
         
         return dict(info=False, data=linedata)
         #print(linedata)
@@ -87,7 +87,7 @@ def Code2Timetable(code):
     data['Schedule']=time_data
     data['STATION_NM']=a[0]['STATION_NM']
 
-    print(data)
+    # print(data)
 
 
     return data
