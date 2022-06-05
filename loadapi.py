@@ -85,8 +85,11 @@ def Code2Timetable(code):
     time_data['2']=time
 
     data['Schedule']=time_data
+    data['STATION_NM']=a[0]['STATION_NM']
 
-    #print(data)
+    print(data)
+
+
     return data
 
 
