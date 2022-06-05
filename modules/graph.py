@@ -1,6 +1,6 @@
 import requests
 from tkinter import * 
-import spam
+import modules.spam
 
 def drawGraph(line, subway):
     canvasWidth = 1000
@@ -79,6 +79,6 @@ def drawGraph(line, subway):
         right = (i + 1) * rectWidth # bar의 right 위치
         w.create_rectangle(left, top, right, bottom, fill=color, tag="grim", activefill='yellow')
 # 위에 값, 아래에 번호. 
-        w.create_text((left+right)//2, top-15, text=spam.stradd(str(passengers[i])), tags="grim") #승차인원수
+        w.create_text((left+right)//2, top-15, text=modules.spam.stradd(str(passengers[i])), tags="grim") #승차인원수
         w.create_text((left+right)//2, bottom+10, text=i+4, tags="grim") #시간
 

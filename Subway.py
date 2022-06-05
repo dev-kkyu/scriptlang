@@ -1,7 +1,6 @@
-from cmath import exp
-from tkinter import messagebox
-from loadapi import *
+from modules.loadapi import *
 from tkinter import *
+from tkinter import messagebox
 
 window = Tk()  # Gui 생성
 window.title("Subway")  # 창이름설정
@@ -125,7 +124,7 @@ class subWindow:
       self.SendList.append(self.listbx.get(0))
 
    def sendEmail(self):
-      from email_send import sendMail
+      from modules.email_send import sendMail
 
       for i in self.SendList:
          sendMail('jjaeunjj@gmail.com', i, LoadSubwayTimetable(input_text.get(), Line, 1))
@@ -135,11 +134,11 @@ def MakeWindow():
    subWindow()
 
 def showMap():
-   from map_show import mapview
+   from modules.map_show import mapview
    mapview(input_text.get() + '역')
 
 def showGraph():
-   from graph import drawGraph
+   from modules.graph import drawGraph
    drawGraph(Line + '호선', input_text.get())
 
 
