@@ -11,7 +11,7 @@ Line = 1
 
 class LineNumButton(Button):
    def __init__(self, container, text):
-      Button.__init__(self, container, text = text, command = self.onClick, font = ("맑은 고딕", 15, "bold"), width = 7, height = 1, fg = "white", bg = "#92D050")
+      Button.__init__(self, container, text = text, command = self.onClick, font = ("맑은 고딕", 15, "bold"), width = 6, height = 1, fg = "white", bg = "#92D050")
       self.linenum = text[0]
    
    def onClick(self):
@@ -104,7 +104,7 @@ subwayLineButton = []
 #     subwayLineButton.append(Button(frame2, text=str(i+1)+"호선", font = ("맑은 고딕", 15, "bold"), width = 7, height = 1, fg = "white", bg = "#92D050"))
 #     subwayLineButton[i].pack(side = "left", padx = 5, pady = 13)
 
-for i in range(8):
+for i in range(9):
    subwayLineButton.append(LineNumButton(frame2, text = str(i+1)+"호선"))
    subwayLineButton[i].pack(side = "left", padx = 5, pady = 13)
 
