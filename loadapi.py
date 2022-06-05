@@ -42,7 +42,12 @@ def LoadSubwayTimetable(subway,line):
     #{'LINE_NUM' : '4호선', 'Schedule' : {'1' :  ['00:05:51', '00:05:59'], '2' : ['00:05:53', '00:06:01']} }
     #data['Schedule']=
     #print(Code2Timetable(code))
-    return dict(info=True, data=Code2Timetable(code))
+
+    data=Code2Timetable(code)
+    if data == False:
+        return dict(info=False, data=data)
+
+    return dict(info=True, data=data)
 
 
 def Code2Timetable(code):

@@ -47,14 +47,15 @@ def outputSchedule(STATION_NM):
 
    if(data['info'] == False):
       if('data' in data):
-         temp = []
-         for i in data['data']:
-            if i['STATION_NM'] == STATION_NM:
-               temp.append(i['LINE_NUM'])
-         if temp != []:
-            msg += '\n'
-            msg += ', '.join(temp)
-            msg += "에 " + STATION_NM + " 역이 존재합니다."
+         if data['data'] != False:
+            temp = []
+            for i in data['data']:
+               if i['STATION_NM'] == STATION_NM:
+                  temp.append(i['LINE_NUM'])
+            if temp != []:
+               msg += '\n'
+               msg += ', '.join(temp)
+               msg += "에 " + STATION_NM + " 역이 존재합니다."
 
       messagebox.showinfo("알림", msg)
       return
@@ -179,9 +180,13 @@ listscroll1["command"]=listbox1.yview
 
 
 def event_for_listbox(event):
-   input_text.delete(0, END)
-   input_text.insert(0, listbox1.get(listbox1.curselection()[0]))
-   outputSchedule(listbox1.get(listbox1.curselection()[0]))
+   try:
+      print(listbox1.get(listbox1.curselection()[0]))
+      input_text.delete(0, END)
+      input_text.insert(0, listbox1.get(listbox1.curselection()[0]))
+      outputSchedule(listbox1.get(listbox1.curselection()[0]))
+   except:
+      pass
 
    #  print(listbox1.get(listbox1.curselection()[0]))
 
