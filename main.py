@@ -1,3 +1,4 @@
+from cmath import exp
 from tkinter import messagebox
 from loadapi import *
 from tkinter import *
@@ -41,7 +42,7 @@ def commandoutputSchedule():
 def outputSchedule(STATION_NM):
    if STATION_NM == '':
       return
-   data = LoadSubwayTimetable(STATION_NM, Line)
+   data = LoadSubwayTimetable(STATION_NM, Line, 0)
    
    msg = "해당 데이터가 없습니다."
 
@@ -58,6 +59,7 @@ def outputSchedule(STATION_NM):
                msg += "에 " + STATION_NM + " 역이 존재합니다."
 
       messagebox.showinfo("알림", msg)
+      print("a")
       return
 
    listbox2.delete(0, END)
@@ -69,7 +71,68 @@ def outputSchedule(STATION_NM):
    
    subwaytime.config(text = data['data']['STATION_NM']+"역 열차 시간표")
 
+class subWindow:
+   def __init__(self):
+      newWindow = Toplevel(window, bd = 6, bg = "#00B050")
+      newWindow.title("Email")  # 창이름설정
+      newWindow.geometry("450x500+200+200")  # 창사이즈설정
+      newWindow.resizable(False, False)  # 사이즈 변경 허용
 
+      midframe = Frame(newWindow, bg = "#FFFFFF", bd = 3)
+      midframe.pack(fill = "both", expand = True)
+
+      newframe = Frame(midframe, bg = "#64C044")
+      newframe.pack(fill = "both", expand = True)
+
+      newTitle = Label(newframe, text="E-Mail 보내기", font = ("맑은 고딕",15, "bold"), bg = "#64C044", height=1)
+      newTitle.pack(fill = "both")
+
+      addframe = Frame(newframe, bg = "#64C044", bd = 3)
+      addframe.pack(fill = "both")
+
+      self.addemailx = Entry(addframe, font = ("맑은 고딕",12))
+      self.addemailx.pack(fill = "both", side = "left", expand = True)
+
+      addbutton = Button(addframe, text = "추가", command = self.addEmail, font = ("맑은 고딕",12, 'bold'), bg = "#92D050", width=7, height=1)
+      addbutton.pack(fill = "both", side = "left")
+
+      bottomframe = Frame(newframe, bg = "#64C044", bd = 3)
+      bottomframe.pack(fill = "both", expand=True)
+
+      listframe = Frame(bottomframe)
+      listframe.pack(fill = "both", expand=True)
+
+      listscrol = Scrollbar(listframe)
+      listscrol.pack(fill = "y", side = "right")
+      self.listbx=Listbox(listframe, yscrollcommand = listscrol.set, font = ('맑은 고딕', 20), height = 1, bd = 0)
+      self.listbx.pack(side="left", fill = "both", expand = True)
+
+      listscrol["command"]=self.listbx.yview
+
+      # for i in range(20):
+      #    self.listbx.insert(i, i)
+
+      sendframe = Frame(bottomframe, bg = "#FFFFFF", bd = 0)
+      sendframe.pack(fill = "both")
+
+      sendbutton = Button(sendframe, text = "보내기", command = self.sendEmail, font = ("맑은 고딕",12, 'bold'), bg = "#92D050", height=1)
+      sendbutton.pack(fill = 'both', expand=True)
+
+      self.SendList = []
+   
+   def addEmail(self):
+      self.listbx.insert(0, self.addemailx.get())
+      self.SendList.append(self.listbx.get(0))
+
+   def sendEmail(self):
+      from email_send import sendMail
+
+      for i in self.SendList:
+         sendMail('jjaeunjj@gmail.com', i, LoadSubwayTimetable(input_text.get(), Line, 1))
+      # sendMail('jjaeunjj@gmail.com', "jaeun224@naver.com", 4114)
+
+def MakeWindow():
+   makewindow = subWindow()
 
 frameside = Frame(window, relief="flat", bd=6, bg="#00B050") # 테두리 전용 프레임
 Main = Frame(frameside, bd=0, bg = "#FFFFFF") # 메인창
@@ -209,7 +272,7 @@ graphframe = Frame(frame4, bd=0, width = 696, height = 135, bg = "#FFFFFF")
 graphframe.pack(fill = "both", side = "left")
 emailphoto = PhotoImage(file = "./image/email.png").subsample(5, 5)
 mapphoto = PhotoImage(file = "./image/map.png").subsample(5, 5)
-email = Button(frame4, width = 115, image = emailphoto, bg = "#FFFFFF")
+email = Button(frame4, command = MakeWindow, width = 115, image = emailphoto, bg = "#FFFFFF")
 kakaomap = Button(frame4, image = mapphoto, bg = "#FFFFFF")
 
 email.pack(fill = "both", side = "left", padx = 10, pady = 10)

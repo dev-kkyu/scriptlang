@@ -15,8 +15,8 @@ def sendMail(fromAddr, toAddr, code):
     s = smtplib.SMTP("smtp.gmail.com", 587) # SMTP 서버와 연결
     s.starttls() # SMTP 연결을 TLS (Transport Layer Security) 모드로전환
    
-    s.login('jjaeunjj@gmail.com ', 'zkedcjmpqmhmiuav')  # 앱 password 이용
-    s.sendmail(fromAddr , toAddr, msg.as_string()) 
+    s.login('jjaeunjj@gmail.com', 'zkedcjmpqmhmiuav')  # 앱 password 이용
+    s.sendmail(fromAddr , [toAddr], msg.as_string()) 
     s.close() 
     
     

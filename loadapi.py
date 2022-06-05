@@ -1,7 +1,7 @@
 import requests
 
 # 역이름 입력받고 해당 코드로 변환(API)된 코드로 시간표 받기(API)
-def LoadSubwayTimetable(subway,line):
+def LoadSubwayTimetable(subway, line, flag):
 
     #역명별 지하철역 정보(역코드,호선)
 
@@ -37,6 +37,9 @@ def LoadSubwayTimetable(subway,line):
     code = data['SearchSTNBySubwayLineInfo']['row'][0]['STATION_CD']
     #print(code)
 
+    # 코드만 얻고 싶으면
+    if flag == 1:
+        return code
     #print(code[0]['STATION_CD'])
 
     #{'LINE_NUM' : '4호선', 'Schedule' : {'1' :  ['00:05:51', '00:05:59'], '2' : ['00:05:53', '00:06:01']} }
