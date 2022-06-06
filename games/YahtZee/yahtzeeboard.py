@@ -5,6 +5,7 @@ from dice import *
 from configuration import *
 from tkinter import messagebox
 
+
 class YahtzeeBoard:
     # index들.
     UPPERTOTAL = 6  # "Upper Scores" 위치의 index.
@@ -354,10 +355,21 @@ class YahtzeeBoard:
             # -> cur_player.getLowerScore() 점수에 따라
             #   UI의 LOWERTOTAL 에 내용 채우기.
             # TODO: 구현
+            if cur_player.allLowerUsed():
+                self.fields[15][self.player].config(text = cur_player.getLowerScore())
                 
             # UPPER category와 LOWER category가 전부 사용되었으면 
             # -> UI의 TOTAL 에 내용 채우기.
             # TODO: 구현
+
+            for i in range(self.numPlayers):
+                if self.fields[6][i]['text'] != '' and self.fields[15][i]['text'] != '':
+                    if self.fields[7][i]['text'] == '':
+                        self.fields[7][i].config(text = 0)
+                    temp = int(self.fields[6][i]['text']) + int(self.fields[7][i]['text']) + int(self.fields[15][i]['text'])
+                    self.fields[16][i].config(text = temp)
+        
+
     
             # 다음 플레이어로 가기.
             self.player = (self.player + 1) % self.numPlayers
@@ -373,6 +385,23 @@ class YahtzeeBoard:
             # 게임이 종료되었는지 검사 (13 round의 마지막 플레이어일 때) 
             # -> 이긴 사람을 알리고 새 게임 시작.
             # TODO: 구현
+
+            checksum = 0
+            for i in range(self.numPlayers):
+                if self.fields[16][i]['text'] != '':
+                    checksum += 1
+            
+            maxwin = 0
+
+            if checksum == self.numPlayers:
+                for i in range(self.numPlayers-1):
+                    if int(self.fields[16][i+1]['text']) > int(self.fields[16][maxwin]['text']):
+                        maxwin = i+1
+                messagebox.showinfo("알림", self.players[maxwin].toString() + " 이김")
+
+                # restart()
+
+
     
             # 다시 Roll Dice 버튼과 diceButtons 버튼들을 활성화.
             self.rollDice.configure(text="Roll Dice")
@@ -401,3 +430,4 @@ class YahtzeeBoard:
 
 if __name__ == '__main__':
     YahtzeeBoard()
+
