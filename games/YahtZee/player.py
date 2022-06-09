@@ -14,6 +14,9 @@ class Player:
 
     def setAtUsed( self, index):    # index번째 사용여부 set
         self.used[index] = True
+    
+    def setAtNotUsed(self, index):
+        self.used[index] = False
 
     def getUpperScore(self):    # 상단 점수 합계 반환
         return sum(self.scores[:self.UPPER])

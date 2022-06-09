@@ -398,9 +398,28 @@ class YahtzeeBoard:
                     if int(self.fields[16][i+1]['text']) > int(self.fields[16][maxwin]['text']):
                         maxwin = i+1
                 messagebox.showinfo("알림", self.players[maxwin].toString() + " 이김")
+    #   row: 0~5, 8~14
 
-                # restart()
+                for i in range(self.numPlayers):
+                    for j in range(17):
+                        self.fields[j][i].config(text = '')
 
+                for i in range(self.numPlayers):
+                    for j in range(13):
+                        self.players[i].setAtNotUsed(j)
+
+                # for i in range(5):
+                    # self.diceButtons[i].config(text = '?')
+                for i in self.diceButtons:
+                    i.config(text = '?')
+                
+                # for i in range(self.numPlayers):
+#                 #     for j in range(8, 15):
+#                 #         self.players[i].setAtNotUsed(j)
+# for i, x in enumerate(self.diceButtons):
+#             if x['state'] != 'disabled':
+#                 self.dice[i].rollDie()
+#                 x.config(text = self.dice[i].getRoll())
 
     
             # 다시 Roll Dice 버튼과 diceButtons 버튼들을 활성화.
@@ -408,7 +427,8 @@ class YahtzeeBoard:
             self.rollDice['state'] = 'normal'
             self.rollDice['bg'] = self.color_btn_bg
             for i in range(5):  #dice 버튼 5개 생성
-                self.diceButtons[i].configure(text='')
+                if self.diceButtons[i]['text'] != '?':
+                    self.diceButtons[i].configure(text='')
                 self.diceButtons[i]['state'] = 'normal'
                 self.diceButtons[i]['bg'] = self.color_btn_bg
     
