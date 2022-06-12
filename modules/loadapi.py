@@ -94,6 +94,7 @@ def Code2Timetable(code):
 
     data['Schedule']=time_data
     data['STATION_NM']=a[0]['STATION_NM']
+    data['LINE_NUM']=a[0]['LINE_NUM']
 
     # print(data)
 
@@ -122,3 +123,39 @@ def LoadSubwaystationtable(line):
 
     #print(station)
     return station
+
+
+def LoadSubwayTimetable2(subway):
+    url="http://openapi.seoul.go.kr:8088/7a65564f5264646f3131327078794f70/json/SearchSTNBySubwayLineInfo/1/1000/ /"+subway
+
+
+    res = requests.get(url)
+    data = res.json()
+
+    if 'RESULT' in data:
+        return False
+
+    code = []
+    for i in data['SearchSTNBySubwayLineInfo']['row']:
+        code.append(i['STATION_CD'])
+
+
+    data = []
+    for i in code:
+        data.append(Code2Timetable(i))
+    
+    line = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    data2 = []
+    for i in data:
+        if i != False:
+            if int(i['LINE_NUM'][1]) in line:
+                data2.append(i)
+
+    return data2
+
+
+
+
+
+# print(LoadSubwayTimetable('정왕'))
