@@ -1,29 +1,29 @@
 from tkinter import * 
 import modules.spam
 
-def drawGraph(line, subway):
-    from modules.loadapi import peoplePerTime
+def drawGraph(line, subway):    #그래프 함수
+    from modules.loadapi import peoplePerTime   #modules의 loadapi에서 peoplePerTime함수를 import
 
-    ride_num = peoplePerTime(line, subway)
+    ride_num = peoplePerTime(line, subway)   #시간대별 승하인원 데이터를 ride_num에 저장
     
-    if ride_num == False:
+    if ride_num == False:  #ride_num에 데이터가 없으면 messagebox를 띄움
         from tkinter import messagebox
         messagebox.showinfo('알림', '해당 데이터가 없습니다.')
         return
     
-
+   
     canvasWidth = 1000
     canvasHeight = 330
 
 
     graphwindow = Toplevel()
-    graphwindow.title(line+' '+subway+'역 시간대별 승차 인원 그래프') 
-    graphwindow.geometry("1000x330+200+100") 
-    w = Canvas(graphwindow, width = canvasWidth, height=canvasHeight) 
+    graphwindow.title(line+' '+subway+'역 시간대별 승차 인원 그래프')  #그래프 window 제목
+    graphwindow.geometry("1000x330+200+100")  #window 크기 지정
+    w = Canvas(graphwindow, width = canvasWidth, height=canvasHeight) #canvas 크기 지정
     w.place(relx=.5, rely=.5,anchor= CENTER) # 한가운데 위치. 
 
     passengers =[]
-
+    #그래프로 변환할 데이터만 필터링해서 저장
     passengers.append(ride_num['FOUR_RIDE_NUM'])
     passengers.append(ride_num['FIVE_RIDE_NUM'])
     passengers.append(ride_num['SIX_RIDE_NUM'])
@@ -68,7 +68,7 @@ def drawGraph(line, subway):
 
     for i in range(nData): # 각 데이터에 대해..
         if nMax == passengers[i]: 
-            color="#35B62C"   # max인 경우는 특별한 색으로
+            color="#35B62C"   # max인 경우는 특별한 색으로 나타냄
         else: color="#92D050" 
 
         curHeight = maxheight * passengers[i] / nMax # 최대값에 대한 비율 반영
@@ -77,6 +77,6 @@ def drawGraph(line, subway):
         right = (i + 1) * rectWidth # bar의 right 위치
         w.create_rectangle(left, top, right, bottom, fill=color, tag="grim", activefill='#FFFFA1')
 # 위에 값, 아래에 번호. 
-        w.create_text((left+right)//2, top-15, text=modules.spam.stradd(str(passengers[i])), tags="grim") #승차인원수
-        w.create_text((left+right)//2, bottom+10, text=i+4, tags="grim") #시간
+        w.create_text((left+right)//2, top-15, text=modules.spam.stradd(str(passengers[i])), tags="grim") #승차인원수 그래프 막대
+        w.create_text((left+right)//2, bottom+10, text=i+4, tags="grim") #시간대
 

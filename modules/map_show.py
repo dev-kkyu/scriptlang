@@ -2,7 +2,7 @@ from tkinter import *
 import tkintermapview
 
 
-def mapview(subway):
+def mapview(subway):   #검색한 역의 위치를 지도상에 표현하는 함수
     root = Toplevel()
     root.geometry(f"{800}x{600}") 
     root.title("map_view_example.py") 
