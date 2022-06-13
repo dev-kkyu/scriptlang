@@ -18,6 +18,4 @@ def sendMail(fromAddr, toAddr, code):
     s.login('jjaeunjj@gmail.com', 'zkedcjmpqmhmiuav')  # 앱 password 이용
     s.sendmail(fromAddr , [toAddr], msg.as_string()) 
     s.close() 
-    
-    
-#sendMail('jjaeunjj@gmail.com', "jaeun224@naver.com", 4114)
+       

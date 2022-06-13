@@ -3,92 +3,6 @@ from tkinter import *
 from tkinter import messagebox
 
 
-# class LineNumButton(Button):
-#    def __init__(self, container, text):
-#       Button.__init__(self, container, text = text, command = self.onClick, font = ("맑은 고딕", 15, "bold"), width = 6, height = 1, fg = "white", bg = "#92D050")
-#       self.linenum = text[0]
-   
-#    def onClick(self):
-#       global lineimage
-#       global Line
-#       Line = self.linenum
-
-#       data = LoadSubwaystationtable(self.linenum)
-#       listbox1.delete(0, END)
-#       listbox2.delete(0, END)
-#       listbox3.delete(0, END)
-#       subwaytime.config(text = "역 열차 시간표")
-      
-#       for i, x in enumerate(data):
-#          listbox1.insert(i, x)
-
-#       subwaylist.config(text = self.linenum + "호선 역 목록")
-
-#       lineimage = PhotoImage(file = "./image/"+self.linenum+".png").subsample(16, 16)
-#       linephoto.config(image = lineimage)
-
-# class subWindow:
-#    def __init__(self):
-#       newWindow = Toplevel(window, bd = 6, bg = "#00B050")
-#       newWindow.title("Email")  # 창이름설정
-#       newWindow.geometry("450x500+200+200")  # 창사이즈설정
-#       newWindow.resizable(False, False)  # 사이즈 변경 허용
-
-#       midframe = Frame(newWindow, bg = "#FFFFFF", bd = 3)
-#       midframe.pack(fill = "both", expand = True)
-
-#       newframe = Frame(midframe, bg = "#64C044")
-#       newframe.pack(fill = "both", expand = True)
-
-#       newTitle = Label(newframe, text="E-Mail 보내기", font = ("맑은 고딕",15, "bold"), bg = "#64C044", height=1)
-#       newTitle.pack(fill = "both")
-
-#       addframe = Frame(newframe, bg = "#64C044", bd = 3)
-#       addframe.pack(fill = "both")
-
-#       self.addemailx = Entry(addframe, font = ("맑은 고딕",12))
-#       self.addemailx.pack(fill = "both", side = "left", expand = True)
-
-#       addbutton = Button(addframe, text = "추가", command = self.addEmail, font = ("맑은 고딕",12, 'bold'), bg = "#92D050", width=7, height=1)
-#       addbutton.pack(fill = "both", side = "left")
-
-#       bottomframe = Frame(newframe, bg = "#64C044", bd = 3)
-#       bottomframe.pack(fill = "both", expand=True)
-
-#       listframe = Frame(bottomframe)
-#       listframe.pack(fill = "both", expand=True)
-
-#       listscrol = Scrollbar(listframe)
-#       listscrol.pack(fill = "y", side = "right")
-#       self.listbx=Listbox(listframe, yscrollcommand = listscrol.set, font = ('맑은 고딕', 20), height = 1, bd = 0)
-#       self.listbx.pack(side="left", fill = "both", expand = True)
-
-#       listscrol["command"]=self.listbx.yview
-
-#       # for i in range(20):
-#       #    self.listbx.insert(i, i)
-
-#       sendframe = Frame(bottomframe, bg = "#FFFFFF", bd = 0)
-#       sendframe.pack(fill = "both")
-
-#       sendbutton = Button(sendframe, text = "보내기", command = self.sendEmail, font = ("맑은 고딕",12, 'bold'), bg = "#92D050", height=1)
-#       sendbutton.pack(fill = 'both', expand=True)
-
-#       self.SendList = []
-   
-#    def addEmail(self):
-#       self.listbx.insert(0, self.addemailx.get())
-#       self.SendList.append(self.listbx.get(0))
-
-#    def sendEmail(self):
-#       from modules.email_send import sendMail
-
-#       for i in self.SendList:
-#          sendMail('jjaeunjj@gmail.com', i, LoadSubwayTimetable(input_text.get(), Line, 1))
-#       # sendMail('jjaeunjj@gmail.com', "jaeun224@naver.com", 4114)
-
-
-
 class mainWindow:
    def __init__(self):
       self.window = Tk()  # Gui 생성
@@ -138,10 +52,7 @@ class mainWindow:
       frame2.pack(fill="both", padx = 20)
 
       subwayLineButton = []
-      # for i in range(8):
-      #     subwayLineButton.append(Button(frame2, text=str(i+1)+"호선", font = ("맑은 고딕", 15, "bold"), width = 7, height = 1, fg = "white", bg = "#92D050"))
-      #     subwayLineButton[i].pack(side = "left", padx = 5, pady = 13)
-
+      
       for i in range(9):
          subwayLineButton.append(Button(frame2, text = (str(i+1)+"호선"), command = lambda row=i+1:self.onClick(row), font = ("맑은 고딕", 15, "bold"), width = 6, height = 1, fg = "white", bg = "#92D050"))
          subwayLineButton[i].pack(side = "left", padx = 5, pady = 13)
@@ -294,11 +205,9 @@ class mainWindow:
       except:
          pass
 
-      #  print(listbox1.get(listbox1.curselection()[0]))
-   
+    
    def onClick(self, linenum):
-      # global lineimage
-      # global Line
+     
       self.linenum = linenum
       self.Line = self.linenum
 
@@ -354,9 +263,6 @@ class mainWindow:
 
       listscrol["command"]=self.listbx.yview
 
-      # for i in range(20):
-      #    self.listbx.insert(i, i)
-
       sendframe = Frame(bottomframe, bg = "#FFFFFF", bd = 0)
       sendframe.pack(fill = "both")
 
@@ -374,8 +280,7 @@ class mainWindow:
 
       for i in self.SendList:
          sendMail('jjaeunjj@gmail.com', i, LoadSubwayTimetable(self.input_text.get(), self.Line, 1))
-      # sendMail('jjaeunjj@gmail.com', "jaeun224@naver.com", 4114)
-
+      
 if __name__ == '__main__':
    mainWindow()
 

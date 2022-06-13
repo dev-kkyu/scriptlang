@@ -8,7 +8,7 @@ def drawGraph(line, subway):
 
 
     graphwindow = Toplevel()
-    graphwindow.title('Graph') 
+    graphwindow.title(line+' '+subway+'역 시간대별 승차 인원 그래프') 
     graphwindow.geometry("1000x330+200+100") 
     w = Canvas(graphwindow, width = canvasWidth, height=canvasHeight) 
     w.place(relx=.5, rely=.5,anchor= CENTER) # 한가운데 위치. 
@@ -17,11 +17,8 @@ def drawGraph(line, subway):
     res = requests.get(url)
     data = res.json()
 
-    #print(data)
-
     passengers =[]
     ride_num = data['CardSubwayTime']['row'][0]
-    #print(ride_num['FOUR_RIDE_NUM'])
     passengers.append(ride_num['FOUR_RIDE_NUM'])
     passengers.append(ride_num['FIVE_RIDE_NUM'])
     passengers.append(ride_num['SIX_RIDE_NUM'])
@@ -53,7 +50,6 @@ def drawGraph(line, subway):
 
     nData = len(passengers) # 데이터 개수, 최대값, 최소값 얻어 놓기
     nMax = max(passengers) 
-    #nMin = min(data)
 
     # background 그리기
     w.create_rectangle(0, 0, canvasWidth, canvasHeight, fill='white', tag="grim")
@@ -66,18 +62,15 @@ def drawGraph(line, subway):
     maxheight = canvasHeight - 50 # bar의 최대 높이.(위/아래 각각 20씩 여유.)
 
     for i in range(nData): # 각 데이터에 대해..
-    #      # max/min은 특별한 색으로.
         if nMax == passengers[i]: 
-            color="red" 
-    #     elif nMin == data[i]: 
-    #         color='blue' 
-        else: color="grey" 
+            color="#35B62C"   # max인 경우는 특별한 색으로
+        else: color="#92D050" 
 
         curHeight = maxheight * passengers[i] / nMax # 최대값에 대한 비율 반영
         top = bottom - curHeight # bar의 top 위치
         left = i * rectWidth # bar의 left 위치
         right = (i + 1) * rectWidth # bar의 right 위치
-        w.create_rectangle(left, top, right, bottom, fill=color, tag="grim", activefill='yellow')
+        w.create_rectangle(left, top, right, bottom, fill=color, tag="grim", activefill='#FFFFA1')
 # 위에 값, 아래에 번호. 
         w.create_text((left+right)//2, top-15, text=modules.spam.stradd(str(passengers[i])), tags="grim") #승차인원수
         w.create_text((left+right)//2, bottom+10, text=i+4, tags="grim") #시간
