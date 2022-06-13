@@ -8,10 +8,10 @@ Windows 10-Pro 64bit
 Visual Studio Code Ver 1.67.0
 
 ## Info
-github 주소 : https://github.com/devkkyu/scriptlang
-GUI 프로그램의 메인모듈 이름 : Subway.py
-텔레그램 서비스 프로그램의 메인모듈 이름 : Telegram_bot.py
-텔레그램 봇의 username(name이 아닙니다) : @subway_schedule_skje_bot
+#### github 주소 : https://github.com/devkkyu/scriptlang
+#### GUI 프로그램의 메인모듈 이름 : Subway.py
+#### 텔레그램 서비스 프로그램의 메인모듈 이름 : Telegram_bot.py
+#### 텔레그램 봇의 username(name이 아닙니다) : @subway_schedule_skje_bot
 
 ## Description
 ### Subway.py
