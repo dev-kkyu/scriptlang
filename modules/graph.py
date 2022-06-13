@@ -1,8 +1,17 @@
-import requests
 from tkinter import * 
 import modules.spam
 
 def drawGraph(line, subway):
+    from modules.loadapi import peoplePerTime
+
+    ride_num = peoplePerTime(line, subway)
+    
+    if ride_num == False:
+        from tkinter import messagebox
+        messagebox.showinfo('알림', '해당 데이터가 없습니다.')
+        return
+    
+
     canvasWidth = 1000
     canvasHeight = 330
 
@@ -13,12 +22,8 @@ def drawGraph(line, subway):
     w = Canvas(graphwindow, width = canvasWidth, height=canvasHeight) 
     w.place(relx=.5, rely=.5,anchor= CENTER) # 한가운데 위치. 
 
-    url = "http://openapi.seoul.go.kr:8088/7a65564f5264646f3131327078794f70/json/CardSubwayTime/1/1000/202111/"+line+"/"+subway+"/"
-    res = requests.get(url)
-    data = res.json()
-
     passengers =[]
-    ride_num = data['CardSubwayTime']['row'][0]
+
     passengers.append(ride_num['FOUR_RIDE_NUM'])
     passengers.append(ride_num['FIVE_RIDE_NUM'])
     passengers.append(ride_num['SIX_RIDE_NUM'])

@@ -129,3 +129,14 @@ def LoadSubwayTimetable2(subway):
                 data2.append(i)
 
     return data2
+
+
+def peoplePerTime(line, subway):
+    url = "http://openapi.seoul.go.kr:8088/7a65564f5264646f3131327078794f70/json/CardSubwayTime/1/1000/202111/"+line+"/"+subway+"/"
+    res = requests.get(url)
+    data = res.json()
+
+    if 'RESULT' in data:
+        return False
+
+    return data['CardSubwayTime']['row'][0]

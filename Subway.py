@@ -128,23 +128,49 @@ class mainWindow:
       frame4 = Frame(Main, bd=0, bg = "#FFFFFF")
       frame4.pack(fill="both", side = "bottom")
 
-      graphframe = Frame(frame4, bd=0, width = 560, height = 135, bg = "#FFFFFF")
-      graphframe.pack(fill = "both", side = "left")
+      emptyframe4 = Frame(frame4, bd=0, width = 415, height = 135, bg = "#FFFFFF")
+      emptyframe4.pack(fill = "both", side = "left")
 
+      
+      loadphoto = PhotoImage(file = "./image/restore.png").subsample(5, 5)
       graphphoto = PhotoImage(file = "./image/graph.png").subsample(5, 5)
       emailphoto = PhotoImage(file = "./image/email.png").subsample(5, 5)
       mapphoto = PhotoImage(file = "./image/map.png").subsample(5, 5)
 
+      loadb = Button(frame4, command = self.loadfile, width = 115, image = loadphoto, bg = "#FFFFFF")
       graph = Button(frame4, command = self.showGraph, width = 115, image = graphphoto, bg = "#FFFFFF")
       email = Button(frame4, command = self.MakeWindow, width = 115, image = emailphoto, bg = "#FFFFFF")
       kakaomap = Button(frame4, command = self.showMap, image = mapphoto, bg = "#FFFFFF")
 
+      loadb.pack(fill = "both", side = "left", padx = 10, pady = 10)
       graph.pack(fill = "both", side = "left", padx = 10, pady = 10)
       email.pack(fill = "both", side = "left", padx = 10, pady = 10)
       kakaomap.pack(fill = "both", side = "left", expand = True, padx = 10, pady = 10)
 
       self.window.mainloop()
 
+   
+   def savefile(self, STATION_NM):
+      write = open("data.txt", 'w')
+      data = str(self.Line) + ' ' + STATION_NM
+      write.write(data)
+      write.close()
+
+   def loadfile(self):
+      try:
+         read = open("data.txt", 'r')
+      except:
+         messagebox.showinfo('알림', '저장된 데이터가 없습니다.')
+         return
+      line = read.readline()
+      data = line.split(' ')
+      self.onClick(int(data[0]))
+      self.outputSchedule(data[1])
+      read.close()
+
+   def showGraph(self):
+      from modules.graph import drawGraph
+      drawGraph(str(self.Line) + '호선', self.input_text.get())
 
    def MakeWindow(self):
       self.subWindow()
@@ -152,10 +178,6 @@ class mainWindow:
    def showMap(self):
       from modules.map_show import mapview
       mapview(self.input_text.get() + '역')
-
-   def showGraph(self):
-      from modules.graph import drawGraph
-      drawGraph(str(self.Line) + '호선', self.input_text.get())
 
    def commandoutputSchedule(self):
       self.outputSchedule(self.input_text.get())
@@ -191,6 +213,7 @@ class mainWindow:
          self.listbox3.insert(i, x)
 
       self.subwaytime.config(text = data['data']['STATION_NM']+"역 열차 시간표")
+      self.savefile(STATION_NM)
 
    def event_for_entry(self, event):
       self.input_text.delete(0, END)
