@@ -31,6 +31,7 @@ def schedule2Telebot(user, STATION_NM):
         STATION_NM = ''.join(temp)
     
     data = LoadSubwayTimetable2(STATION_NM)
+
     print(user, STATION_NM)
     
     # sendMessage(user, data)
@@ -40,6 +41,20 @@ def schedule2Telebot(user, STATION_NM):
         sendMessage(user, msg)
         return
     # msg = list(str(data))
+
+    for i in data:
+        temptime1 = []
+        temptime2 = []
+        for j in i['Schedule']['1']:
+            nowh = int(datetime.now().hour)
+            if int(j[0:2]) == nowh or int(j[0:2]) == nowh - 1 or int(j[0:2]) == nowh + 1:
+                temptime1.append(j)
+        i['Schedule']['1']=temptime1
+        for j in i['Schedule']['2']:
+            nowh = int(datetime.now().hour)
+            if int(j[0:2]) == nowh or int(j[0:2]) == nowh - 1 or int(j[0:2]) == nowh + 1:
+                temptime2.append(j)
+        i['Schedule']['2']=temptime2
 
     for i in data:
         msg = i['STATION_NM'] + '역 '
